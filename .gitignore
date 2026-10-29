@@ -1,0 +1,17 @@
+# build outputs (build.sh / build.cmd / go build)
+/dist/
+/netdisk
+/netdisk-*
+*.exe
+*.test
+*.out
+
+# coverage / profiling
+coverage.*
+cpu.prof
+mem.prof
+
+# editor / OS noise
+*.swp
+*~
+.DS_Store
