@@ -502,6 +502,8 @@ body {
 }
 .topbar-icon-btn:hover { background: rgba(var(--accent-rgb),0.35); }
 .topbar-icon-btn svg { width: 18px; height: 18px; }
+.topbar-icon-group { display: inline-flex; align-items: center; gap: 2px; flex: 0 0 auto; }
+.topbar-icon-group a.topbar-icon-btn { text-decoration: none; }
 
 /* ===== SEARCH ===== */
 .search-box {
@@ -1022,8 +1024,6 @@ body {
 #progress-bar::-moz-range-track { height: 6px; background: linear-gradient(to right, var(--track-color) 0%, var(--track-color) 0%, var(--track-buffer-color) 0%, var(--track-buffer-color) 100%); border-radius: 3px; }
 #progress-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; margin-top: -5px; width: 16px; height: 16px; background: var(--text-color); border-radius: 50%; border: 2px solid var(--main-bg); box-shadow: 0 0 5px rgba(0,0,0,0.5); }
 
-.extra-links { margin-top: 20px; text-align: center; }
-.extra-links a { margin: 0 10px; color: var(--link-color); text-decoration: none; }
 
 /* ===== MODAL ===== */
 .modal-overlay { display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10002;justify-content:center;align-items:center }
@@ -1266,17 +1266,19 @@ body {
 <div id="drop-overlay" class="drop-overlay"><div class="drop-overlay-inner"><i data-lucide="upload-cloud" style="width:48px;height:48px"></i><div>Drop files or folders here</div></div></div>
 <div class="container">
   <div class="topbar">
-    <button type="button" class="topbar-icon-btn" onclick="showPageQR()" title="Show page URL / QR code" aria-label="Show page URL and QR code">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-        <path d="M14 14h3v3h-3z"></path>
-        <path d="M21 14v.01M14 21v.01M17 21v.01M21 17v4h-4"></path>
-      </svg>
-    </button>
+    <div class="topbar-icon-group">
+      <a class="topbar-icon-btn" href="/wc/" title="WebClip" aria-label="WebClip"><i data-lucide="clipboard"></i></a>
+      <button type="button" class="topbar-icon-btn" onclick="showPageQR()" title="Show page URL / QR code" aria-label="Show page URL and QR code">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+          <path d="M14 14h3v3h-3z"></path>
+          <path d="M21 14v.01M14 21v.01M17 21v.01M21 17v4h-4"></path>
+        </svg>
+      </button>
+    </div>
     <div class="breadcrumbs">
-      <a href="/wc/" title="WebClip" aria-label="WebClip"><i data-lucide="clipboard" style="width:16px;height:16px"></i></a>
       <a href="/" title="Home" aria-label="Home"><i data-lucide="home" style="width:16px;height:16px"></i></a>
       {{range .Breadcrumbs}}<span class="sep">/</span><a href="/{{.Path | urlpath}}">{{.Name}}</a>{{end}}
     </div>
@@ -1365,9 +1367,6 @@ body {
   {{template "partial_inner" .}}
   </table>
 
-  {{if not .CurrentPath}}
-  <div class="extra-links"><a href="/wc/"><i data-lucide="scissors" style="width:14px;height:14px"></i> webclip</a></div>
-  {{end}}
 </div>
 
 <!-- Upload floating panel -->
