@@ -103,6 +103,7 @@ type IndexData struct {
 	CanPaste    bool
 	Referrer    string
 	ShowHidden  bool
+	Version     string
 }
 
 type EditData struct {
@@ -506,6 +507,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		NameOrder:   "asc",
 		SizeOrder:   "asc",
 		MtimeOrder:  "asc",
+		Version:     Version,
 	}
 	executeTemplate(w, indexTmpl, data)
 }
@@ -691,6 +693,7 @@ func handleDir(w http.ResponseWriter, r *http.Request, path, volName string, vol
 		MtimeOrder:  mtimeOrder,
 		CanPaste:    canPaste,
 		ShowHidden:  showHidden,
+		Version:     Version,
 	}
 	executeTemplate(w, indexTmpl, data)
 }

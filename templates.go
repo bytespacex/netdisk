@@ -1276,7 +1276,8 @@ body {
       </svg>
     </button>
     <div class="breadcrumbs">
-      <a href="/"><i data-lucide="home" style="width:16px;height:16px"></i></a>
+      <a href="/wc/" title="WebClip" aria-label="WebClip"><i data-lucide="clipboard" style="width:16px;height:16px"></i></a>
+      <a href="/" title="Home" aria-label="Home"><i data-lucide="home" style="width:16px;height:16px"></i></a>
       {{range .Breadcrumbs}}<span class="sep">/</span><a href="/{{.Path | urlpath}}">{{.Name}}</a>{{end}}
     </div>
     {{if .CurrentUser}}
@@ -1337,6 +1338,8 @@ body {
         <button class="dropdown-item" onclick="toggleView()"><i id="grid-icon" data-lucide="grid-3x3"></i> <span id="grid-label">Grid View</span></button>
         <button class="dropdown-item" onclick="openRecycleBin()"><i data-lucide="history"></i> Recycle Bin</button>
         <button class="dropdown-item" onclick="openLogViewer()"><i data-lucide="scroll-text"></i> Log</button>
+        <div style="height:1px;background:var(--border-color);margin:4px 0"></div>
+        <button class="dropdown-item" onclick="openAbout()"><i data-lucide="info"></i> About</button>
       </div>
     </div>
     {{end}}
@@ -1421,6 +1424,20 @@ body {
     <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
       <button class="btn-cancel" onclick="resetKeys()" style="padding:6px 12px;border:1px solid var(--border-color);background:var(--button-bg);color:var(--text-color);border-radius:8px;cursor:pointer;font-size:13px">Reset</button>
       <button class="btn-ok" onclick="saveKeys()" style="padding:6px 12px;border:none;background:var(--track-color);color:#fff;border-radius:8px;cursor:pointer;font-size:13px">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="about-modal" class="modal-overlay">
+  <div class="modal-box" style="min-width:440px;max-width:520px">
+    <h3 style="margin:0 0 16px;display:flex;align-items:center;gap:8px"><i data-lucide="info" style="width:20px;height:20px"></i> About</h3>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+      <div style="display:flex;justify-content:space-between;gap:16px"><span style="color:var(--text-muted)">Name</span><strong>netdisk</strong></div>
+      <div style="display:flex;justify-content:space-between;gap:16px"><span style="color:var(--text-muted)">Version</span><strong>{{.Version}}</strong></div>
+      <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline"><span style="color:var(--text-muted)">GitHub</span><a href="https://github.com/bytespacex/netdisk" target="_blank" rel="noopener noreferrer" style="color:var(--link-color);white-space:nowrap;text-align:right">github.com/bytespacex/netdisk</a></div>
+    </div>
+    <div class="modal-btns" style="margin-top:20px">
+      <button class="btn-ok" onclick="document.getElementById('about-modal').classList.remove('active')">Close</button>
     </div>
   </div>
 </div>
@@ -2798,6 +2815,7 @@ function exportLog() {
 // --- Recycle Bin ---
 let recycleCache = [];
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function openAbout(){ document.getElementById('about-modal').classList.add('active'); }
 function openRecycleBin(){ document.getElementById('recycle-modal').classList.add('active'); loadRecycle(); }
 function closeRecycleBin(){ document.getElementById('recycle-modal').classList.remove('active'); }
 function loadRecycle(){
