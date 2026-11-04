@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build netdisk
+# Build netdisk.
 #
 #   ./build.sh          build for the current platform   -> dist/
 #   ./build.sh all      cross-compile every target        -> dist/
