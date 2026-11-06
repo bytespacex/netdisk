@@ -504,6 +504,7 @@ body {
 .topbar-icon-btn svg { width: 18px; height: 18px; }
 .topbar-icon-group { display: inline-flex; align-items: center; gap: 2px; flex: 0 0 auto; }
 .topbar-icon-group a.topbar-icon-btn { text-decoration: none; }
+.topbar-actions { display: contents; }
 
 /* ===== SEARCH ===== */
 .search-box {
@@ -1233,8 +1234,10 @@ body {
 .action-btn i { width: 12px; height: 12px; }
 
   .topbar { gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-  .breadcrumbs { width: calc(100% - 40px); }
+  .breadcrumbs { flex: 1 1 auto; width: auto; min-width: 0; }
   .topbar-icon-btn { width: 34px; height: 34px; }
+  .topbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; flex-basis: 100%; }
+  .search-box { flex: 1 1 140px; max-width: none; }
   .header-info { margin-left: 0; flex-shrink: 0; }
   .search-box { flex: 1; min-width: 0; }
   .search-box input { height: 34px; font-size: 14px; }
@@ -1289,6 +1292,7 @@ body {
       <a href="/logout"><i data-lucide="log-out" style="width:14px;height:14px;vertical-align:middle"></i></a>
     </div>
     {{end}}
+    <div class="topbar-actions">
     {{if .CurrentPath}}
     <div class="search-box">
       <div class="search-input-wrap">
@@ -1345,6 +1349,7 @@ body {
       </div>
     </div>
     {{end}}
+    </div>
   </div>
 
   {{if .CurrentPath}}
