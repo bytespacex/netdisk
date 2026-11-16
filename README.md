@@ -1,5 +1,7 @@
 # netdisk - Engineering White Paper
 
+> A lightweight single-binary Go file server with a web file manager, WebDAV, a built-in media player, share links, and a recycle bin — zero external dependencies.
+
 ## Overview
 
 netdisk is a feature-rich lightweight file server written in Go. It provides a web file-management UI, a WebDAV service, a built-in media player, file share links, a WebClip tool, a file editor, search, a recycle bin, and more. Single-binary deployment with zero external dependencies.
