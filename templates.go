@@ -76,6 +76,7 @@ const LOGIN_HTML = `<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>netdisk - Login</title>
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
 <script src="/static/lucide.min.js"></script>
 <style>
 :root {
@@ -241,6 +242,7 @@ const SHARE_PASSWORD_HTML = `<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Password required</title>
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
 <style>
 :root{--bg:#181825;--card:#1e1e2e;--text:#cdd6f4;--muted:#a6adc8;--border:#45475a;--accent:#89b4fa;--danger:#f38ba8}
 *{box-sizing:border-box}
@@ -279,6 +281,7 @@ const EDIT_HTML = `<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>{{.Path}} - Edit</title>
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
 <script src="/static/lucide.min.js"></script>
 <style>
 :root{--bg:#1e1e2e;--text:#cdd6f4;--border:#45475a;--code-bg:#181825}
@@ -377,6 +380,7 @@ const INDEX_HTML = `<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>netdisk</title>
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
 <script src="/static/lucide.min.js"></script>
 <script src="/static/qrcode.min.js"></script>
 <style>
@@ -3285,6 +3289,7 @@ const WEBCLIP_HTML = `<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>webclip</title>
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
 <script src="/static/lucide.min.js"></script>
 <style>
 :root {
@@ -3749,6 +3754,7 @@ const PREVIEW_HTML = `<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>{{.Filename}} - Preview</title>
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
 <link rel="stylesheet" href="/static/hljs-dark.min.css">
 <script src="/static/lucide.min.js"></script>
 <style>

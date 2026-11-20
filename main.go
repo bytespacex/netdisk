@@ -149,6 +149,9 @@ func main() {
 	// Static files (embedded JS/CSS)
 	mux.HandleFunc("GET /static/{file}", staticHandler)
 
+	// Favicon / site icon (also exposed for other programs)
+	mux.HandleFunc("GET /icon.svg", iconHandler)
+
 	// Login
 	mux.HandleFunc("GET /login", loginHandler)
 	mux.HandleFunc("POST /login", loginHandler)
