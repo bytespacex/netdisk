@@ -392,6 +392,7 @@ const INDEX_HTML = `<!DOCTYPE html>
   --link-color: #1e66f5;
   --hover-bg: rgba(76, 79, 105, 0.06);
   --player-dock-height: 120px;
+  --glass-menu-bg: rgba(243, 245, 249, 0.92);
   --shadow-color: rgba(0, 0, 0, 0.08);
   --button-bg: #ccd0da;
   --track-color: #1e66f5;
@@ -422,6 +423,7 @@ const INDEX_HTML = `<!DOCTYPE html>
   --playing-color: #89b4fa;
   --text-muted: #a6adc8;
   --glass-bg: rgba(30, 30, 46, 0.55);
+  --glass-menu-bg: rgba(28, 28, 44, 0.92);
   --glass-border: rgba(205, 214, 244, 0.08);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   --accent: #89b4fa;
@@ -733,10 +735,10 @@ body {
   right: 0;
   margin-top: 4px;
   min-width: 160px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.15) !important;
+  background: var(--glass-menu-bg);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--glass-border) !important;
   border-radius: 10px;
   box-shadow: 0 10px 25px -5px rgba(0,0,0,0.4), 0 8px 10px -6px rgba(0,0,0,0.4) !important;
   z-index: 9999 !important;
@@ -1013,11 +1015,12 @@ body {
 #player-track-info { display: flex; justify-content: space-between; align-items: center; width: 100%; font-size: 0.9rem; margin-bottom: 8px; }
 #current-track-name { font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 15px; }
 #time-display { flex-shrink: 0; font-family: monospace; }
-.player-controls { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
-.player-controls button { font-size: 1.2em; background: none; border: none; cursor: pointer; width: auto; min-width: 40px; height: 44px; display: grid; place-items: center; border-radius: 6px; color: var(--text-color); padding: 0 8px; transition: none; }
-.player-controls button:hover { background: rgba(var(--accent-rgb), 0.2) !important; color: #fff; }
-.speed-btn { font-size: 0.9em; font-weight: bold; }
-.seek-text { font-size: 0.9em; font-weight: bold; font-family: monospace; }
+.player-controls { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
+.player-controls button { font-size: 1em; background: rgba(var(--accent-rgb), 0.1); border: none; cursor: pointer; width: auto; min-width: 34px; height: 40px; display: grid; place-items: center; border-radius: 8px; color: var(--accent); padding: 0 6px; transition: background .15s; }
+.player-controls button:hover { background: rgba(var(--accent-rgb), 0.25) !important; }
+.player-controls button svg { width: 20px; height: 20px; }
+.speed-label { min-width: 40px; text-align: center; font-size: 0.85em; font-weight: bold; font-family: monospace; color: var(--accent); user-select: none; }
+.seek-text { font-size: 1.05em; font-weight: bold; font-family: monospace; }
 #audio-player { display: none; }
 #progress-bar {
   -webkit-appearance: none; appearance: none;
@@ -1028,6 +1031,19 @@ body {
 #progress-bar::-webkit-slider-runnable-track { height: 6px; background: linear-gradient(to right, var(--track-color) 0%, var(--track-color) 0%, var(--track-buffer-color) 0%, var(--track-buffer-color) 100%); border-radius: 3px; }
 #progress-bar::-moz-range-track { height: 6px; background: linear-gradient(to right, var(--track-color) 0%, var(--track-color) 0%, var(--track-buffer-color) 0%, var(--track-buffer-color) 100%); border-radius: 3px; }
 #progress-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; margin-top: -5px; width: 16px; height: 16px; background: var(--text-color); border-radius: 50%; border: 2px solid var(--main-bg); box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+
+/* Mobile: compact dock so more controls fit and icons stay legible */
+@media(max-width:768px) {
+  :root { --player-dock-height: 92px; }
+  .dock { padding: 8px 8px; }
+  #player-track-info { font-size: 0.8rem; margin-bottom: 6px; }
+  .player-controls { gap: 3px; }
+  .player-controls button { min-width: 28px; height: 36px; padding: 0 3px; }
+  .player-controls button svg { width: 18px; height: 18px; }
+  .speed-label { min-width: 34px; font-size: 0.8em; }
+  .seek-text { font-size: 1em; }
+  #progress-bar { margin-bottom: 6px; }
+}
 
 
 /* ===== MODAL ===== */
@@ -1404,11 +1420,13 @@ body {
   <input type="range" id="progress-bar" value="0" step="0.1" class="progress-bar">
   <audio id="audio-player" preload="auto"></audio>
   <div class="player-controls">
-    <button id="speed-btn" class="speed-btn">1.0x</button>
+    <button id="speed-down-btn" title="Speed Down"><i data-lucide="chevron-down"></i></button>
+    <span id="speed-label" class="speed-label">1.0x</span>
+    <button id="speed-up-btn" title="Speed Up"><i data-lucide="chevron-up"></i></button>
     <button id="prev-btn" title="Previous"><i data-lucide="skip-back"></i></button>
-    <button id="seek-back-btn" class="seek-text" title="-10s">-10</button>
+    <button id="seek-back-btn" class="seek-text" title="-10s">-</button>
     <button id="main-play-pause-btn" title="Play/Pause"><i data-lucide="play"></i></button>
-    <button id="seek-fwd-btn" class="seek-text" title="+10s">+10</button>
+    <button id="seek-fwd-btn" class="seek-text" title="+10s">+</button>
     <button id="next-btn" title="Next"><i data-lucide="skip-forward"></i></button>
     <button id="shuffle-btn" title="Shuffle"><i data-lucide="shuffle"></i></button>
   </div>
@@ -1584,7 +1602,9 @@ const audioPlayer = document.getElementById('audio-player'),
   prevBtn = document.getElementById('prev-btn'),
   nextBtn = document.getElementById('next-btn'),
   shuffleBtn = document.getElementById('shuffle-btn'),
-  speedBtn = document.getElementById('speed-btn'),
+  speedLabel = document.getElementById('speed-label'),
+  speedUpBtn = document.getElementById('speed-up-btn'),
+  speedDownBtn = document.getElementById('speed-down-btn'),
   seekBackBtn = document.getElementById('seek-back-btn'),
   seekFwdBtn = document.getElementById('seek-fwd-btn'),
   playerDock = document.getElementById('player-dock'),
@@ -1636,6 +1656,12 @@ function showSpeedOverlay() {
   ov.style.opacity = '1';
   clearTimeout(ov._timer);
   ov._timer = setTimeout(function() { ov.style.opacity = '0'; }, 1500);
+}
+function setSpeed(rate) {
+  currentPlaybackRate = Math.max(0.5, Math.min(3.0, Math.round(rate * 10) / 10));
+  activePlayer.playbackRate = currentPlaybackRate;
+  speedLabel.textContent = currentPlaybackRate.toFixed(1) + 'x';
+  showSpeedOverlay();
 }
 
 // Select-all checkbox
@@ -1744,7 +1770,8 @@ videoPlayer.ontimeupdate = () => { const currentTime = videoPlayer.currentTime, 
 progressBar.oninput = () => { if (activePlayer.duration) { activePlayer.currentTime = (progressBar.value / 100) * activePlayer.duration; } };
 prevBtn.onclick = playPrev; nextBtn.onclick = playNext;
 shuffleBtn.onclick = () => { isShuffled = !isShuffled; shuffleBtn.style.opacity = isShuffled ? '1' : '0.5'; if (isShuffled) { for (let i = playlist.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[playlist[i], playlist[j]] = [playlist[j], playlist[i]]; } } else { playlist = [...originalPlaylist]; } };
-speedBtn.onclick = () => { const rates = [1.0, 1.5, 2.0, 2.5, 3.0, 0.5]; let next = rates[(rates.indexOf(currentPlaybackRate)+1)%rates.length]; if(isNaN(next)) next=1.0; currentPlaybackRate = next; activePlayer.playbackRate = next; speedBtn.textContent = next.toFixed(1)+'x'; };
+speedUpBtn.onclick = () => setSpeed(currentPlaybackRate + 0.5);
+speedDownBtn.onclick = () => setSpeed(currentPlaybackRate - 0.5);
 
 function setClipboard(action) { fetch('/_actions/set_clipboard', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ paths: getSelectedPaths(), action }) }).then(()=>window.location.reload()); }
 function pasteItems() { fetch('/_actions/paste', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ destination: '{{.CurrentPath}}' }) }).then(()=>window.location.reload()); }
@@ -2774,7 +2801,7 @@ const keyLabels = {
   'seek_back': 'Seek Back (-5s)',
   'speed_up': 'Speed Up (>)',
   'speed_down': 'Speed Down (<)',
-  'toggle_speed': 'Cycle Speed (S)',
+  'toggle_speed': 'Speed Up (S)',
   'slideshow': 'Slideshow (in lightbox)',
   'delete': 'Delete Selected',
   'help': 'Shortcuts Help'
@@ -2961,7 +2988,7 @@ function openKeySettings() {
       ['P / Space', 'Play / Pause'],
       ['J / K', 'Next / Prev track'],
       ['< / >', 'Speed down / up'],
-      ['S', 'Cycle speed'],
+      ['S', 'Speed up'],
       ['- / +', 'Volume down / up'],
       ['f', 'Fullscreen']
     ]},
@@ -3137,8 +3164,8 @@ document.addEventListener('keydown', function(e) {
     else if (e.key === 'L') { activePlayer.currentTime += 60; e.preventDefault(); }
     else if (e.key === 'ArrowLeft') { activePlayer.currentTime -= 5; e.preventDefault(); }
     else if (e.key === 'ArrowRight') { activePlayer.currentTime += 5; e.preventDefault(); }
-    else if (e.key === '<') { currentPlaybackRate = Math.max(0.5, currentPlaybackRate - 0.5); activePlayer.playbackRate = currentPlaybackRate; speedBtn.textContent = currentPlaybackRate.toFixed(1) + 'x'; showSpeedOverlay(); e.preventDefault(); }
-    else if (e.key === '>') { currentPlaybackRate = Math.min(3.0, currentPlaybackRate + 0.5); activePlayer.playbackRate = currentPlaybackRate; speedBtn.textContent = currentPlaybackRate.toFixed(1) + 'x'; showSpeedOverlay(); e.preventDefault(); }
+    else if (e.key === '<') { setSpeed(currentPlaybackRate - 0.5); e.preventDefault(); }
+    else if (e.key === '>') { setSpeed(currentPlaybackRate + 0.5); e.preventDefault(); }
     else if (e.key === '-') { adjustVolume(-0.1); e.preventDefault(); }
     else if (e.key === '=' || e.key === '+') { adjustVolume(0.1); e.preventDefault(); }
     return;
@@ -3159,7 +3186,7 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'J') { playNext(); e.preventDefault(); return; }
   if (e.key === 'K') { playPrev(); e.preventDefault(); return; }
   if (e.key === 'P') { if (activePlayer.src) { if (activePlayer.paused) activePlayer.play(); else activePlayer.pause(); } e.preventDefault(); return; }
-  if (e.key === 'S') { speedBtn.click(); e.preventDefault(); return; }
+  if (e.key === 'S') { speedUpBtn.click(); e.preventDefault(); return; }
 
   // --- Lowercase: file navigation ---
   if (e.key === 'j') { fileNav(1); e.preventDefault(); return; }
@@ -3170,8 +3197,8 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'a') { toggleSelectAll(); e.preventDefault(); return; }
   if (e.key === 'd') { if (getSelectedPaths().length > 0) deleteSelected(); e.preventDefault(); return; }
   if (e.key === 's') { var si = document.getElementById('search-input'); if (si) { si.focus(); si.select(); } e.preventDefault(); return; }
-  if (e.key === '<') { currentPlaybackRate = Math.max(0.5, currentPlaybackRate - 0.5); activePlayer.playbackRate = currentPlaybackRate; speedBtn.textContent = currentPlaybackRate.toFixed(1) + 'x'; showSpeedOverlay(); e.preventDefault(); return; }
-  if (e.key === '>') { currentPlaybackRate = Math.min(3.0, currentPlaybackRate + 0.5); activePlayer.playbackRate = currentPlaybackRate; speedBtn.textContent = currentPlaybackRate.toFixed(1) + 'x'; showSpeedOverlay(); e.preventDefault(); return; }
+  if (e.key === '<') { setSpeed(currentPlaybackRate - 0.5); e.preventDefault(); return; }
+  if (e.key === '>') { setSpeed(currentPlaybackRate + 0.5); e.preventDefault(); return; }
   if (e.key === '-') { adjustVolume(-0.1); e.preventDefault(); return; }
   if (e.key === '=' || e.key === '+') { adjustVolume(0.1); e.preventDefault(); return; }
   if (e.key === '?') { openKeySettings(); e.preventDefault(); return; }
